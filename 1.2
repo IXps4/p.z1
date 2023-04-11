@@ -1,0 +1,77 @@
+import re
+alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+
+# read text from file
+with open('pz1.2.txt', 'r', encoding='utf-8') as file:
+    text = file.read()
+
+    # filter text by alphabet
+    text = re.sub(f'[^{alphabet}]', '', text)
+    frequencies_with_spaces = {}
+    frequencies_no_spaces = {}
+    bigram_frequencies_intersect_with_spaces = {}
+    bigram_frequencies_no_intersect_with_spaces = {}
+    bigram_frequencies_intersect_no_spaces = {}
+    bigram_frequencies_no_intersect_no_spaces = {}
+    for i in range(len(text)):
+        if text[i] in frequencies_with_spaces:
+            frequencies_with_spaces[text[i]] += 1
+        else:
+            frequencies_with_spaces[text[i]] = 1
+        if text[i] == ' ':
+            continue
+        if text[i] in frequencies_no_spaces:
+            frequencies_no_spaces[text[i]] += 1
+        else:
+            frequencies_no_spaces[text[i]] = 1
+        if i < len(text) - 1:
+            bigram_with_spaces = text[i:i+2]
+            if bigram_with_spaces in bigram_frequencies_intersect_with_spaces:
+                bigram_frequencies_intersect_with_spaces[bigram_with_spaces] += 1
+            else:
+                bigram_frequencies_intersect_with_spaces[bigram_with_spaces] = 1
+            if bigram_with_spaces[0] != ' ' and bigram_with_spaces[1] != ' ':
+                if bigram_with_spaces in bigram_frequencies_no_intersect_with_spaces:
+                    bigram_frequencies_no_intersect_with_spaces[bigram_with_spaces] += 1
+                else:
+                    bigram_frequencies_no_intersect_with_spaces[bigram_with_spaces] = 1
+        if i < len(text) - 1 and text[i] != ' ' and text[i+1] != ' ':
+            bigram_no_spaces = text[i:i+2]
+            if bigram_no_spaces in bigram_frequencies_intersect_no_spaces:
+                bigram_frequencies_intersect_no_spaces[bigram_no_spaces] += 1
+            else:
+                bigram_frequencies_intersect_no_spaces[bigram_no_spaces] = 1
+            if bigram_no_spaces[0] != ' ' and bigram_no_spaces[1] != ' ':
+                if bigram_no_spaces in bigram_frequencies_no_intersect_no_spaces:
+                    bigram_frequencies_no_intersect_no_spaces[bigram_no_spaces] += 1
+                else:
+                    bigram_frequencies_no_intersect_no_spaces[bigram_no_spaces] = 1
+
+    print("частоти символів із урахуванням пробілу:")
+    for key, value in sorted(frequencies_with_spaces.items(), key=lambda item: item[1], reverse=True):
+        print(key, value)
+    print()
+
+    print("частоти символів без пробілу:")
+    for key, value in sorted(frequencies_no_spaces.items(), key=lambda item: item[1], reverse=True):
+        print(key, value)
+    print()
+
+    print("частоти біграм із урахуванням пробілу, біграми з перетином:")
+    for key, value in sorted(bigram_frequencies_intersect_with_spaces.items(), key=lambda item: item[1], reverse=True):
+        print(key, value)
+    print()
+
+    print("частоти біграм із урахуванням пробілу, біграми без перетину:")
+    for key, value in sorted(bigram_frequencies_no_intersect_with_spaces.items(), key=lambda item: item[1], reverse=True):
+        print(key, value)
+    print()
+    print("частоти біграм без пробілів, біграми з перетином;:")
+    for key, value in sorted(bigram_frequencies_intersect_no_spaces.items(), key=lambda item: item[1], reverse=True):
+        print(key, value)
+    print()
+
+    print("частоти біграм без пробілів, біграми без перетину.:")
+    for key, value in sorted(  bigram_frequencies_no_intersect_no_spaces.items(), key=lambda item: item[1], reverse=True):
+        print(key, value)
+    print()
