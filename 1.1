@@ -1,0 +1,31 @@
+def filter_regular_alphabet(text):
+    regular_alphabet = "абвгдеєжзиіїйклмнопрстуфхцчшщьюя"
+    filtered_text = ""
+
+    for char in text:
+        if char.lower() in regular_alphabet:
+            filtered_text += char.lower()
+
+    return filtered_text
+
+def filter_alphabet_with_space(text):
+    regular_alphabet = "абвгдеєжзиіїйклмнопрстуфхцчшщьюя"
+    filtered_text = ""
+
+    for char in text:
+        if char.lower() in regular_alphabet:
+            filtered_text += char.lower()
+        elif char == " ":
+            if len(filtered_text) > 0 and filtered_text[-1] != " ":
+                filtered_text += char
+
+    if len(filtered_text) > 0 and filtered_text[-1] == " ":
+        filtered_text = filtered_text[:-1]
+
+    return filtered_text
+
+text = input("Введіть текст: ")
+filtered_text1 = filter_regular_alphabet(text)
+filtered_text2 = filter_alphabet_with_space(text)
+print(filtered_text1)
+print(filtered_text2)
