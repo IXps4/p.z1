@@ -1,0 +1,16 @@
+def calculate_coincidence_index(text):
+    N = len(text)
+    frequencies = {}
+    for char in text:
+        if char in frequencies:
+            frequencies[char] += 1
+        else:
+            frequencies[char] = 1
+    coincidence_sum = 0
+    for freq in frequencies.values():
+        coincidence_sum += freq * (freq - 1)
+    index = coincidence_sum / (N * (N - 1))
+    return index
+text = "наближене значення числа Пі, яке можна використовувати в більшості випадків - 3,14"
+index = calculate_coincidence_index(text)
+print(index)
